@@ -56,7 +56,7 @@ const Mistake = () => {
             disabled={mistake === true && idx + 1 === arr.length ? false : true}
             onClick={handleUndoBall}
           >
-            {freeBall && 'FB'}
+            {/* {freeBall && 'FB'} */}
           </button>
         );
       })}
