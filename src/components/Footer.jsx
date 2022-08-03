@@ -4,6 +4,7 @@ import { FaCaretLeft, FaCaretRight } from 'react-icons/fa';
 // CONTEXT
 import { GlobalContext } from '../context/GlobalContext';
 import { PlayerContext } from '../context/PlayerContext';
+import { ScoreContext } from '../context/ScoreContext';
 
 const Footer = () => {
   const [playerData, setPlayerData] = useState({ p1: false, p2: false });
@@ -15,11 +16,13 @@ const Footer = () => {
     currentBreak,
     redsRemaining,
     playerName,
-    bestOfFrames,
     playerFrames,
+    bestOfFrames,
   } = useContext(GlobalContext);
 
   const { player, highestBreak, breakHistory } = useContext(PlayerContext);
+
+  const { handleConcedeFrame, setConcession } = useContext(ScoreContext);
 
   const calculatePointsRemaining = (e) => {
     return redsRemaining * 8 + 27;
@@ -80,7 +83,16 @@ const Footer = () => {
         </div>
 
         {playerData.p1 ? (
-          <button className='concede'>Concede Frame</button>
+          <button
+            className='concede'
+            value='p1'
+            onClick={(e) => {
+              handleConcedeFrame(e);
+              setConcession(true);
+            }}
+          >
+            Concede Frame
+          </button>
         ) : (
           <div></div>
         )}
@@ -94,7 +106,16 @@ const Footer = () => {
         </div>
 
         {playerData.p2 ? (
-          <button className='concede'>Concede Frame</button>
+          <button
+            className='concede'
+            value='p2'
+            onClick={(e) => {
+              handleConcedeFrame(e);
+              setConcession(true);
+            }}
+          >
+            Concede Frame
+          </button>
         ) : (
           <div></div>
         )}

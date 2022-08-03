@@ -4,21 +4,26 @@ import { PlayerContext } from '../context/PlayerContext';
 import { ScoreContext } from '../context/ScoreContext';
 
 const FinalBalls = () => {
-  const { freeBall, setFreeball, handleFreeBall } = useContext(GlobalContext);
+  const { freeBall, handleFreeBall } = useContext(GlobalContext);
+
   const { addBreakHistory } = useContext(PlayerContext);
-  const { addScore, finalColourValue, setFinalColourValue } =
+
+  const { addScore, finalColourValue, setFinalColourValue, setFinishGame } =
     useContext(ScoreContext);
 
   const handleColourValue = (e) => {
     if (e.target.value == finalColourValue) {
       setFinalColourValue((prev) => prev + 1);
     }
-  };
 
-  console.log(finalColourValue);
+    if (e.target.value === '7') {
+      setFinishGame(true);
+    }
+  };
 
   return (
     <div className='colour-balls'>
+      <h1>FINAL</h1>
       {colours
         .filter((colour) => colour.value === finalColourValue)
         .map((colour, idx) => {

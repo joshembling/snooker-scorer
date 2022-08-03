@@ -13,6 +13,9 @@ import Footer from './components/Footer';
 import RedBalls from './components/RedBalls';
 import ColourBalls from './components/ColourBalls';
 import FinalBalls from './components/FinalBalls';
+import Respot from './components/Respot';
+import Winner from './components/Winner';
+import EndMatch from './components/EndMatch';
 
 /**
  * PROVIDERS
@@ -28,8 +31,12 @@ import { ScoreProvider } from './context/ScoreContext';
 
 function App() {
   const [startGame, setStartGame] = useState(false);
+  const [bestOfFrames, setBestOfFrames] = useState(3);
   const [finalColours, setFinalColours] = useState(false);
+  const [finishGame, setFinishGame] = useState(false);
+  const [respot, setRespot] = useState(false);
 
+  console.log(finishGame);
   return (
     <>
       <div className='rotate'>
@@ -37,7 +44,10 @@ function App() {
           Please rotate your device <FaMobile />
         </h2>
       </div>
-      <GlobalProvider>
+      <GlobalProvider
+        bestOfFrames={bestOfFrames}
+        setBestOfFrames={setBestOfFrames}
+      >
         <div className='snookerApp'>
           {startGame === false ? (
             <StartGame setStartGame={setStartGame} />
@@ -46,16 +56,35 @@ function App() {
               finalColours={finalColours}
               setFinalColours={setFinalColours}
             >
-              <ScoreProvider>
-                <Nav />
-                {finalColours === false ? (
+              <ScoreProvider
+                finishGame={finishGame}
+                setFinishGame={setFinishGame}
+                respot={respot}
+                setRespot={setRespot}
+                setFinalColours={setFinalColours}
+              >
+                <Nav finishGame={finishGame} respot={respot} />
+                {/* Render respot */}
+                {finishGame === true && respot === true ? <Respot /> : ''}
+
+                {/* If finished game and there's a winner show victory, otherwise show the balls */}
+                {finishGame === true && respot === false ? <Winner /> : ''}
+
+                {finishGame === false && finalColours === false ? (
                   <>
                     <RedBalls />
                     <ColourBalls setFinalColours={setFinalColours} />
                   </>
                 ) : (
-                  <FinalBalls finalColours={finalColours} />
+                  ''
                 )}
+
+                {finishGame === false && finalColours === true ? (
+                  <FinalBalls finalColours={finalColours} />
+                ) : (
+                  ''
+                )}
+
                 <Footer />
               </ScoreProvider>
             </PlayerProvider>

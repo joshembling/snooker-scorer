@@ -4,27 +4,34 @@ import { GlobalContext } from '../context/GlobalContext';
 import { PlayerContext } from '../context/PlayerContext';
 import { ScoreContext } from '../context/ScoreContext';
 
-const ColourBalls = ({ setFinalColours }) => {
+const ColourBalls = () => {
   const { freeBall, redsRemaining, handleFreeBall } = useContext(GlobalContext);
-  const { addBreakHistory, lastColourAfterRed, setLastColourAfterRed } =
-    useContext(PlayerContext);
+  const {
+    addBreakHistory,
+    lastColourAfterRed,
+    setLastColourAfterRed,
+    finalColours,
+    setFinalColours,
+  } = useContext(PlayerContext);
   const { addScore } = useContext(ScoreContext);
 
   /**
    * FINAL COLOURS INIT
    */
+
   useEffect(() => {
     if (redsRemaining === 0) {
       setLastColourAfterRed(true);
+    } else {
+      setLastColourAfterRed(false);
     }
   }, [redsRemaining]);
 
   const handleLastColourAfterRed = (e) => {
     console.log('No more normal balls');
+    setLastColourAfterRed(true);
     setFinalColours(true);
   };
-
-  console.log(lastColourAfterRed);
 
   return (
     <div className='colour-balls'>

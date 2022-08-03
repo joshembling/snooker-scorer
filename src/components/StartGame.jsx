@@ -5,14 +5,12 @@ const StartGame = ({ setStartGame }) => {
   const {
     playerName,
     setPlayerName,
-    bestOfFrames,
-    setBestOfFrames,
     noOfReds,
     setNoOfReds,
     setRedsRemaining,
+    bestOfFrames,
+    setBestOfFrames,
   } = useContext(GlobalContext);
-
-  console.log(noOfReds);
 
   return (
     <>

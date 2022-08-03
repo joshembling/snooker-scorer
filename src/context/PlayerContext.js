@@ -84,10 +84,6 @@ export function PlayerProvider({ finalColours, setFinalColours, children }) {
     }
   };
 
-  /**
-   * FINAL COLOURS
-   */
-
   return (
     <PlayerContext.Provider
       value={{
@@ -97,12 +93,14 @@ export function PlayerProvider({ finalColours, setFinalColours, children }) {
         addBreakHistory,
         highestBreak,
         breakHistory,
+        setBreakHistory,
         breakCurrent,
         setBreakCurrent,
         lastColourAfterRed,
         setLastColourAfterRed,
         finalColours,
         setFinalColours,
+        setHighestBreak,
       }}
     >
       {children}

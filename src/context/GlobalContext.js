@@ -2,7 +2,7 @@ import React, { useState, createContext } from 'react';
 
 export const GlobalContext = createContext();
 
-export function GlobalProvider({ children }) {
+export function GlobalProvider({ bestOfFrames, setBestOfFrames, children }) {
   const [playerName, setPlayerName] = useState({
     p1: 'Player 1',
     p2: 'Player 2',
@@ -11,8 +11,11 @@ export function GlobalProvider({ children }) {
     p1: 0,
     p2: 0,
   });
-  const [bestOfFrames, setBestOfFrames] = useState(3);
   const [noOfReds, setNoOfReds] = useState(15);
+  const [redsRemaining, setRedsRemaining] = useState(15);
+
+  console.log(noOfReds);
+  console.log(redsRemaining);
 
   const [score, setScore] = useState({
     p1: 0,
@@ -25,7 +28,6 @@ export function GlobalProvider({ children }) {
   });
 
   const [nextBall, setNextBall] = useState('Red');
-  const [redsRemaining, setRedsRemaining] = useState(15);
 
   const [freeBall, setFreeBall] = useState(false);
   const handleFreeBall = (e) => {
@@ -53,13 +55,13 @@ export function GlobalProvider({ children }) {
         setFreeBall,
         playerName,
         setPlayerName,
-        bestOfFrames,
-        setBestOfFrames,
         playerFrames,
         setPlayerFrames,
         noOfReds,
         setNoOfReds,
         handleFreeBall,
+        bestOfFrames,
+        setBestOfFrames,
       }}
     >
       {children}

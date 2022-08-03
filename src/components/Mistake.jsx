@@ -14,6 +14,8 @@ const Mistake = () => {
     setBreakCurrent,
     finalColours,
     setFinalColours,
+    lastColourAfterRed,
+    setLastColourAfterRed,
   } = useContext(PlayerContext);
 
   const { finalColourValue, setFinalColourValue } = useContext(ScoreContext);
@@ -34,9 +36,10 @@ const Mistake = () => {
       }));
 
       if (finalColours && e.target.value == 2) {
-        console.log('yellow');
         setFinalColours(false);
-      } else {
+        setLastColourAfterRed(false);
+        setFinalColourValue(2);
+      } else if (finalColours) {
         setFinalColourValue((prev) => prev - 1);
       }
     } else {
@@ -54,9 +57,10 @@ const Mistake = () => {
       }));
 
       if (finalColours && e.target.value == 2) {
-        console.log('yellow');
         setFinalColours(false);
-      } else {
+        setLastColourAfterRed(false);
+        setFinalColourValue(2);
+      } else if (finalColours) {
         setFinalColourValue((prev) => prev - 1);
       }
     }
