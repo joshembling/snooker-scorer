@@ -2,12 +2,21 @@ import React, { useContext } from 'react';
 
 import { PlayerContext } from '../context/PlayerContext';
 import { GlobalContext } from '../context/GlobalContext';
+import { ScoreContext } from '../context/ScoreContext';
 
 const Mistake = () => {
   const { setScore, setRedsRemaining, mistake, freeBall, setCurrentBreak } =
     useContext(GlobalContext);
 
-  const { player, breakCurrent, setBreakCurrent } = useContext(PlayerContext);
+  const {
+    player,
+    breakCurrent,
+    setBreakCurrent,
+    finalColours,
+    setFinalColours,
+  } = useContext(PlayerContext);
+
+  const { finalColourValue, setFinalColourValue } = useContext(ScoreContext);
 
   const handleUndoBall = (e) => {
     if (player === 'Player 1') {
@@ -23,6 +32,13 @@ const Mistake = () => {
         ...prev,
         p1: prev.p1.slice(0, -1),
       }));
+
+      if (finalColours && e.target.value == 2) {
+        console.log('yellow');
+        setFinalColours(false);
+      } else {
+        setFinalColourValue((prev) => prev - 1);
+      }
     } else {
       setScore((prev) => ({
         ...prev,
@@ -36,6 +52,13 @@ const Mistake = () => {
         ...prev,
         p2: prev.p2.slice(0, -1),
       }));
+
+      if (finalColours && e.target.value == 2) {
+        console.log('yellow');
+        setFinalColours(false);
+      } else {
+        setFinalColourValue((prev) => prev - 1);
+      }
     }
 
     if (e.target.classList.contains('red')) {
@@ -54,7 +77,7 @@ const Mistake = () => {
               freeBall === true ? 'free-ball' : ball.colour
             } ${idx + 1 === arr.length ? 'last-ball' : ''}`}
             disabled={mistake === true && idx + 1 === arr.length ? false : true}
-            onClick={handleUndoBall}
+            onClick={(e) => handleUndoBall(e)}
           >
             {/* {freeBall && 'FB'} */}
           </button>

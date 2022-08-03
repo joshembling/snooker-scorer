@@ -5,12 +5,14 @@ import { PlayerContext } from './PlayerContext';
 export const ScoreContext = createContext();
 
 export function ScoreProvider({ children }) {
-  const [foulActive, setFoulActive] = useState(false);
-
   const { setScore, setCurrentBreak, redsRemaining, setNextBall } =
     useContext(GlobalContext);
 
   const { player } = useContext(PlayerContext);
+
+  const [foulActive, setFoulActive] = useState(false);
+
+  const [finalColourValue, setFinalColourValue] = useState(2);
 
   const addScore = (e) => {
     if (player === 'Player 1') {
@@ -44,6 +46,8 @@ export function ScoreProvider({ children }) {
         addScore,
         foulActive,
         setFoulActive,
+        finalColourValue,
+        setFinalColourValue,
       }}
     >
       {children}

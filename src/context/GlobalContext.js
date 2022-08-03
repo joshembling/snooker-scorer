@@ -12,6 +12,7 @@ export function GlobalProvider({ children }) {
     p2: 0,
   });
   const [bestOfFrames, setBestOfFrames] = useState(3);
+  const [noOfReds, setNoOfReds] = useState(15);
 
   const [score, setScore] = useState({
     p1: 0,
@@ -27,6 +28,10 @@ export function GlobalProvider({ children }) {
   const [redsRemaining, setRedsRemaining] = useState(15);
 
   const [freeBall, setFreeBall] = useState(false);
+  const handleFreeBall = (e) => {
+    setFreeBall(false);
+    setNextBall('Colour');
+  };
 
   // mistake
   const [mistake, setMistake] = useState(false);
@@ -52,6 +57,9 @@ export function GlobalProvider({ children }) {
         setBestOfFrames,
         playerFrames,
         setPlayerFrames,
+        noOfReds,
+        setNoOfReds,
+        handleFreeBall,
       }}
     >
       {children}

@@ -83,13 +83,12 @@ header {
 
 .startGame {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 2rem 3rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2rem 1rem;
   justify-content: space-between;
   padding: 2rem 2rem;
   @media (max-width: 768px) {
     padding: 1rem 0.5rem;
-    gap: 3rem 0.5rem;
   }
   &__control {
     display: flex;
@@ -108,11 +107,19 @@ header {
       font-size: 1rem;
       font-weight: 500;
     }
+
+    select {
+      font-family: inherit;
+      border: none;
+      padding: 0.53rem 0.5rem;
+      font-size: 1rem;
+      font-weight: 500;
+    }
   }
 
   button#ready {
     width: 100%;
-    grid-column: 1 / 4;
+    grid-column: 1 / 5;
     font-family: inherit;
     padding: 1rem 2.5rem;
     font-size: 1.2rem;
@@ -266,6 +273,10 @@ footer {
     span {
       font-size: 1.1rem;
       margin-top: 0.4rem;
+
+      @media (max-width: 768px) {
+        font-size: 1rem;
+      }
     }
   }
 
@@ -373,6 +384,11 @@ button:disabled:hover {
   border-radius: 50%;
   display: inline-block;
   margin: 0.25rem 0.1rem;
+
+  @media (max-width: 768px) {
+    width: 1rem;
+    height: 1rem;
+  }
 }
 
 button.break-history-ball:disabled {

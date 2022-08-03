@@ -4,13 +4,16 @@ import { GlobalContext } from './GlobalContext';
 
 export const PlayerContext = createContext();
 
-export function PlayerProvider({ children }) {
+export function PlayerProvider({ finalColours, setFinalColours, children }) {
   const [player, setPlayer] = useState('Player 1');
 
   // BREAKS
   const [highestBreak, setHighestBreak] = useState({ p1: 0, p2: 0 });
   const [breakHistory, setBreakHistory] = useState({ p1: [], p2: [] });
   const [breakCurrent, setBreakCurrent] = useState({ p1: [], p2: [] });
+
+  // LAST COLOURS
+  const [lastColourAfterRed, setLastColourAfterRed] = useState(false);
 
   const {
     currentBreak,
@@ -51,6 +54,8 @@ export function PlayerProvider({ children }) {
       setMistake(false);
       freeBall && setFreeBall(false);
     }
+
+    lastColourAfterRed && setFinalColours(true);
   };
 
   const addBreakHistory = (e) => {
@@ -79,6 +84,10 @@ export function PlayerProvider({ children }) {
     }
   };
 
+  /**
+   * FINAL COLOURS
+   */
+
   return (
     <PlayerContext.Provider
       value={{
@@ -90,6 +99,10 @@ export function PlayerProvider({ children }) {
         breakHistory,
         breakCurrent,
         setBreakCurrent,
+        lastColourAfterRed,
+        setLastColourAfterRed,
+        finalColours,
+        setFinalColours,
       }}
     >
       {children}

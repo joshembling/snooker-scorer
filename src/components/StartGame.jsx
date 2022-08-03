@@ -2,10 +2,17 @@ import React, { useContext } from 'react';
 import { GlobalContext } from '../context/GlobalContext';
 
 const StartGame = ({ setStartGame }) => {
-  const { playerName, setPlayerName, bestOfFrames, setBestOfFrames } =
-    useContext(GlobalContext);
+  const {
+    playerName,
+    setPlayerName,
+    bestOfFrames,
+    setBestOfFrames,
+    noOfReds,
+    setNoOfReds,
+    setRedsRemaining,
+  } = useContext(GlobalContext);
 
-  console.log(playerName);
+  console.log(noOfReds);
 
   return (
     <>
@@ -53,6 +60,22 @@ const StartGame = ({ setStartGame }) => {
             onChange={(e) => setBestOfFrames(e.target.value)}
             value={bestOfFrames}
           />
+        </div>
+        <div className='startGame__control'>
+          <label htmlFor='noOfReds'>Number of reds:</label>
+          <select
+            name='noOfReds'
+            id='noOfReds'
+            onChange={(e) => {
+              setNoOfReds(e.target.value);
+              setRedsRemaining(e.target.value);
+            }}
+            value={noOfReds}
+          >
+            <option value='6'>6</option>
+            <option value='10'>10</option>
+            <option value='15'>15</option>
+          </select>
         </div>
         <button id='ready' onClick={() => setStartGame(true)}>
           Start Game

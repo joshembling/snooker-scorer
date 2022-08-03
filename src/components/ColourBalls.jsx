@@ -1,18 +1,30 @@
-import React, { useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { GlobalContext } from '../context/GlobalContext';
 
 import { PlayerContext } from '../context/PlayerContext';
 import { ScoreContext } from '../context/ScoreContext';
 
-const ColourBalls = () => {
-  const { freeBall, setFreeBall, setNextBall } = useContext(GlobalContext);
-  const { addBreakHistory } = useContext(PlayerContext);
+const ColourBalls = ({ setFinalColours }) => {
+  const { freeBall, redsRemaining, handleFreeBall } = useContext(GlobalContext);
+  const { addBreakHistory, lastColourAfterRed, setLastColourAfterRed } =
+    useContext(PlayerContext);
   const { addScore } = useContext(ScoreContext);
 
-  const handleFreeBall = (e) => {
-    setFreeBall(false);
-    setNextBall('Colour');
+  /**
+   * FINAL COLOURS INIT
+   */
+  useEffect(() => {
+    if (redsRemaining === 0) {
+      setLastColourAfterRed(true);
+    }
+  }, [redsRemaining]);
+
+  const handleLastColourAfterRed = (e) => {
+    console.log('No more normal balls');
+    setFinalColours(true);
   };
+
+  console.log(lastColourAfterRed);
 
   return (
     <div className='colour-balls'>
@@ -27,7 +39,7 @@ const ColourBalls = () => {
               addScore(e);
               addBreakHistory(e);
               freeBall && handleFreeBall(e);
-              // lastColourAfterRed && handleLastColourAfterRed(e);
+              lastColourAfterRed && handleLastColourAfterRed(e);
             }}
           ></button>
         );
