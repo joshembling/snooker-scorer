@@ -9,7 +9,6 @@ import { ScoreContext } from '../context/ScoreContext';
 const Footer = () => {
   const [playerData, setPlayerData] = useState({ p1: false, p2: false });
   const [pointsRemainingActive, setPointsRemainingActive] = useState(false);
-  // const [concedeFrame, setConcedeFrame] = useState({ p1: false, p2: false });
 
   const {
     score,

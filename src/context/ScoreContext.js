@@ -5,6 +5,8 @@ import React, {
   useContext,
   useRef,
 } from 'react';
+import useLocalStorage from '../hooks/useLocalStorage';
+
 import { GlobalContext } from './GlobalContext';
 import { PlayerContext } from './PlayerContext';
 
@@ -46,7 +48,10 @@ export function ScoreProvider({
   } = useContext(PlayerContext);
 
   const [foulActive, setFoulActive] = useState(false);
-  const [finalColourValue, setFinalColourValue] = useState(2);
+  const [finalColourValue, setFinalColourValue] = useLocalStorage(
+    'FINAL_COLOUR_VALUE',
+    2
+  );
   const [frameWinner, setFrameWinner] = useState({ p1: false, p2: false });
   const [concession, setConcession] = useState(false);
 
@@ -164,12 +169,7 @@ export function ScoreProvider({
   };
 
   useEffect(() => {
-    console.log('useEffect Run');
-    console.log(parseInt(playerFrames.p1));
-    console.log(parseInt(bestOfFrames));
-
     if (parseInt(playerFrames.p1) + 1 === parseInt(bestOfFrames)) {
-      console.log('HERERERER');
       setMatchWinner((prev) => ({
         ...prev,
         p1: true,
@@ -177,7 +177,6 @@ export function ScoreProvider({
       }));
       setFinishMatch(true);
     } else if (parseInt(playerFrames.p2) + 1 === parseInt(bestOfFrames)) {
-      console.log('here');
       setMatchWinner((prev) => ({
         ...prev,
         p1: false,
@@ -186,6 +185,14 @@ export function ScoreProvider({
       setFinishMatch(true);
     }
   }, [playerFrames]);
+
+  // useEffect(() => {
+  //   first
+
+  //   return () => {
+  //     second
+  //   }
+  // }, [finishMatch])
 
   const returnToHome = () => {
     setStartGame(false);

@@ -1,19 +1,32 @@
 import React, { useState, createContext, useContext } from 'react';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 import { GlobalContext } from './GlobalContext';
 
 export const PlayerContext = createContext();
 
 export function PlayerProvider({ finalColours, setFinalColours, children }) {
-  const [player, setPlayer] = useState('Player 1');
+  const [player, setPlayer] = useLocalStorage('PLAYER', 'Player 1');
 
   // BREAKS
-  const [highestBreak, setHighestBreak] = useState({ p1: 0, p2: 0 });
-  const [breakHistory, setBreakHistory] = useState({ p1: [], p2: [] });
-  const [breakCurrent, setBreakCurrent] = useState({ p1: [], p2: [] });
+  const [highestBreak, setHighestBreak] = useLocalStorage('HIGHEST_BREAK', {
+    p1: 0,
+    p2: 0,
+  });
+  const [breakHistory, setBreakHistory] = useLocalStorage('BREAK_HISTORY', {
+    p1: [],
+    p2: [],
+  });
+  const [breakCurrent, setBreakCurrent] = useLocalStorage('BREAK_CURRENT', {
+    p1: [],
+    p2: [],
+  });
 
   // LAST COLOURS
-  const [lastColourAfterRed, setLastColourAfterRed] = useState(false);
+  const [lastColourAfterRed, setLastColourAfterRed] = useLocalStorage(
+    'LAST_COLOUR_AFTER_RED',
+    false
+  );
 
   const {
     currentBreak,

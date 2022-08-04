@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 
 import { GlobalContext } from '../context/GlobalContext';
 import { PlayerContext } from '../context/PlayerContext';
 import { ScoreContext } from '../context/ScoreContext';
 
 const Respot = () => {
-  const { setScore, setPlayerFrames } = useContext(GlobalContext);
+  const { setPlayerFrames } = useContext(GlobalContext);
   const { addBreakHistory, player } = useContext(PlayerContext);
   const { addScore, setRespot, setFrameWinner } = useContext(ScoreContext);
 

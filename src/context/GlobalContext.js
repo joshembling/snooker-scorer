@@ -10,33 +10,31 @@ export function GlobalProvider({
   setFinishMatch,
   children,
 }) {
-  const [playerName, setPlayerName] = useState({
+  const [playerName, setPlayerName] = useLocalStorage('PLAYER_NAME', {
     p1: 'Player 1',
     p2: 'Player 2',
   });
-  const [playerFrames, setPlayerFrames] = useState({
+  const [playerFrames, setPlayerFrames] = useLocalStorage('PLAYER_FRAMES', {
     p1: 0,
     p2: 0,
   });
-  const [noOfReds, setNoOfReds] = useState(15);
-  const [redsRemaining, setRedsRemaining] = useState(15);
-
-  // const [score, setScore] = useState({
-  //   p1: 0,
-  //   p2: 0,
-  // });
+  const [noOfReds, setNoOfReds] = useLocalStorage('NO_OF_REDS', 15);
+  const [redsRemaining, setRedsRemaining] = useLocalStorage(
+    'REDS_REMAINING',
+    15
+  );
 
   const [score, setScore] = useLocalStorage('SCORE', {
     p1: 0,
     p2: 0,
   });
 
-  const [currentBreak, setCurrentBreak] = useState({
+  const [currentBreak, setCurrentBreak] = useLocalStorage('CURRENT_BREAK', {
     p1: 0,
     p2: 0,
   });
 
-  const [nextBall, setNextBall] = useState('Red');
+  const [nextBall, setNextBall] = useLocalStorage('NEXT_BALL', 'Red');
 
   const [freeBall, setFreeBall] = useState(false);
   const handleFreeBall = (e) => {

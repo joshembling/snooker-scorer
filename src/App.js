@@ -26,16 +26,16 @@ import { PlayerProvider } from './context/PlayerContext';
 import { ScoreProvider } from './context/ScoreContext';
 
 function App() {
-  const [startGame, setStartGame] = useState(false);
-  const [bestOfFrames, setBestOfFrames] = useState(3);
-  const [finalColours, setFinalColours] = useState(false);
-  const [finishGame, setFinishGame] = useState(false);
-  const [finishMatch, setFinishMatch] = useState(false);
+  const [startGame, setStartGame] = useLocalStorage('START_GAME', false);
+  const [bestOfFrames, setBestOfFrames] = useLocalStorage('BEST_OF_FRAMES', 3);
+  const [finalColours, setFinalColours] = useLocalStorage(
+    'SET_FINAL_COLOURS',
+    false
+  );
+  const [finishGame, setFinishGame] = useLocalStorage('FINISH_GAME', false);
+  const [finishMatch, setFinishMatch] = useLocalStorage('FINISH_MATCH', false);
   const [concededFrame, setConcededFrame] = useState(false);
   const [respot, setRespot] = useState(false);
-
-  // console.log('Finish Match: ' + finishMatch);
-  // console.log('Respot: ' + respot);
 
   return (
     <>
