@@ -5,7 +5,7 @@ import { ScoreContext } from '../context/ScoreContext';
 
 import Mistake from './Mistake';
 
-const Nav = ({ finishGame, respot }) => {
+const Nav = ({ finishGame, respot, concededFrame }) => {
   const {
     score,
     setScore,
@@ -16,11 +16,12 @@ const Nav = ({ finishGame, respot }) => {
     setMistake,
     freeBall,
     setFreeBall,
+    finishMatch,
   } = useContext(GlobalContext);
 
   const { changePlayer, player, setPlayer } = useContext(PlayerContext);
 
-  const { foulActive, setFoulActive, startNextFrame } =
+  const { foulActive, setFoulActive, startNextFrame, returnToHome } =
     useContext(ScoreContext);
 
   const handleRedOffTable = (e) => {
@@ -64,13 +65,20 @@ const Nav = ({ finishGame, respot }) => {
 
   return (
     <nav>
-      {/* <h3>Object ball: {nextBall}</h3> */}
       <div className='buttons'>
-        {(finishGame === false || respot === true) && (
+        {/* {((finishGame === false && concededFrame === false) || respot) && (
           <button onClick={changePlayer}>Change Player</button>
-        )}
+        )} */}
 
-        {finishGame === false && respot === false ? (
+        {finishGame === false &&
+          concededFrame === false &&
+          finishMatch === false && (
+            <button onClick={changePlayer}>Change Player</button>
+          )}
+
+        {respot && <button onClick={changePlayer}>Change Player RESPOT</button>}
+
+        {finishGame === false && respot === false && concededFrame === false ? (
           <>
             <button onClick={handleRedOffTable} disabled={redsRemaining === 0}>
               Red off table
@@ -90,8 +98,13 @@ const Nav = ({ finishGame, respot }) => {
           ''
         )}
 
-        {finishGame && respot === false && (
+        {((finishGame === true && respot === false) ||
+          (concededFrame === true && finishMatch === false)) && (
           <button onClick={startNextFrame}>Start Next Frame</button>
+        )}
+
+        {finishMatch && (
+          <button onClick={returnToHome}>Return to Homescreen</button>
         )}
       </div>
       <div className={`fouls ${foulActive ? 'active' : ''}`}>

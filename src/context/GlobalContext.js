@@ -1,8 +1,15 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, createContext, useEffect } from 'react';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 export const GlobalContext = createContext();
 
-export function GlobalProvider({ bestOfFrames, setBestOfFrames, children }) {
+export function GlobalProvider({
+  bestOfFrames,
+  setBestOfFrames,
+  finishMatch,
+  setFinishMatch,
+  children,
+}) {
   const [playerName, setPlayerName] = useState({
     p1: 'Player 1',
     p2: 'Player 2',
@@ -14,10 +21,12 @@ export function GlobalProvider({ bestOfFrames, setBestOfFrames, children }) {
   const [noOfReds, setNoOfReds] = useState(15);
   const [redsRemaining, setRedsRemaining] = useState(15);
 
-  console.log(noOfReds);
-  console.log(redsRemaining);
+  // const [score, setScore] = useState({
+  //   p1: 0,
+  //   p2: 0,
+  // });
 
-  const [score, setScore] = useState({
+  const [score, setScore] = useLocalStorage('SCORE', {
     p1: 0,
     p2: 0,
   });
@@ -35,8 +44,9 @@ export function GlobalProvider({ bestOfFrames, setBestOfFrames, children }) {
     setNextBall('Colour');
   };
 
-  // mistake
   const [mistake, setMistake] = useState(false);
+
+  const [matchWinner, setMatchWinner] = useState({ p1: false, p2: false });
 
   return (
     <GlobalContext.Provider
@@ -62,6 +72,10 @@ export function GlobalProvider({ bestOfFrames, setBestOfFrames, children }) {
         handleFreeBall,
         bestOfFrames,
         setBestOfFrames,
+        finishMatch,
+        setFinishMatch,
+        matchWinner,
+        setMatchWinner,
       }}
     >
       {children}

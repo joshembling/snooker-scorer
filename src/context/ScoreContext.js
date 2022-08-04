@@ -17,6 +17,11 @@ export function ScoreProvider({
   setRespot,
   setFinalColours,
   children,
+  concededFrame,
+  setConcededFrame,
+  finishMatch,
+  setFinishMatch,
+  setStartGame,
 }) {
   const {
     score,
@@ -28,6 +33,8 @@ export function ScoreProvider({
     setNextBall,
     playerFrames,
     setPlayerFrames,
+    bestOfFrames,
+    setMatchWinner,
   } = useContext(GlobalContext);
 
   const {
@@ -42,6 +49,11 @@ export function ScoreProvider({
   const [finalColourValue, setFinalColourValue] = useState(2);
   const [frameWinner, setFrameWinner] = useState({ p1: false, p2: false });
   const [concession, setConcession] = useState(false);
+
+  const finishGameRef = useRef();
+  const concededFrameRef = useRef();
+  finishGameRef.current = finishGame;
+  concededFrameRef.current = concededFrame;
 
   const addScore = (e) => {
     if (player === 'Player 1') {
@@ -69,13 +81,11 @@ export function ScoreProvider({
     }
   };
 
-  const finishGameRef = useRef();
-  finishGameRef.current = finishGame;
   /**
    * HANDLING THE GAME FINISH
    */
   useEffect(() => {
-    if (finishGame) {
+    if (finishGame & (concededFrame === false)) {
       if (score.p1 > score.p2) {
         setFrameWinner((prev) => ({
           ...prev,
@@ -97,7 +107,6 @@ export function ScoreProvider({
         }));
         setRespot(false);
       } else if (score.p1 === score.p2 && concession === false) {
-        console.log(score);
         setFrameWinner((prev) => ({
           ...prev,
           p1: false,
@@ -110,8 +119,6 @@ export function ScoreProvider({
 
   // CONCESSION
   const handleConcedeFrame = (e) => {
-    console.log(e.target.value);
-
     if (e.target.value === 'p1') {
       setFrameWinner((prev) => ({
         ...prev,
@@ -121,7 +128,7 @@ export function ScoreProvider({
         ...prev,
         p2: prev.p2 + 1,
       }));
-      setFinishGame(true);
+      setConcededFrame(true);
     } else if (e.target.value === 'p2') {
       setFrameWinner((prev) => ({
         ...prev,
@@ -131,27 +138,70 @@ export function ScoreProvider({
         ...prev,
         p1: prev.p1 + 1,
       }));
-      setFinishGame(true);
+      setConcededFrame(true);
     }
 
-    setTimeout(() => {
-      startNextFrame();
-    }, 3000);
+    // setTimeout(() => {
+    //   startNextFrame();
+    // }, 3000);
   };
 
   // BEGIN NEXT FRAME
   const startNextFrame = () => {
-    console.log('start frame');
     setFinalColours(false);
     setFinishGame(false);
     setRespot(false);
     setScore({ p1: 0, p2: 0 });
     setRedsRemaining(noOfReds);
     setLastColourAfterRed(false);
+    setFinalColourValue(2);
     setHighestBreak({ p1: [], p2: [] });
     setBreakHistory({ p1: [], p2: [] });
     setBreakCurrent({ p1: [], p2: [] });
     setCurrentBreak({ p1: 0, p2: 0 });
+    setConcededFrame(false);
+    setFrameWinner({ p1: false, p2: false });
+  };
+
+  useEffect(() => {
+    console.log('useEffect Run');
+    console.log(parseInt(playerFrames.p1));
+    console.log(parseInt(bestOfFrames));
+
+    if (parseInt(playerFrames.p1) + 1 === parseInt(bestOfFrames)) {
+      console.log('HERERERER');
+      setMatchWinner((prev) => ({
+        ...prev,
+        p1: true,
+        p2: false,
+      }));
+      setFinishMatch(true);
+    } else if (parseInt(playerFrames.p2) + 1 === parseInt(bestOfFrames)) {
+      console.log('here');
+      setMatchWinner((prev) => ({
+        ...prev,
+        p1: false,
+        p2: true,
+      }));
+      setFinishMatch(true);
+    }
+  }, [playerFrames]);
+
+  const returnToHome = () => {
+    setStartGame(false);
+    setFinalColours(false);
+    setFinishGame(false);
+    setRespot(false);
+    setScore({ p1: 0, p2: 0 });
+    setRedsRemaining(noOfReds);
+    setLastColourAfterRed(false);
+    setFinalColourValue(2);
+    setHighestBreak({ p1: [], p2: [] });
+    setBreakHistory({ p1: [], p2: [] });
+    setBreakCurrent({ p1: [], p2: [] });
+    setCurrentBreak({ p1: 0, p2: 0 });
+    setConcededFrame(false);
+    setFrameWinner({ p1: false, p2: false });
   };
 
   return (
@@ -170,6 +220,8 @@ export function ScoreProvider({
         startNextFrame,
         handleConcedeFrame,
         setConcession,
+        setFrameWinner,
+        returnToHome,
       }}
     >
       {children}

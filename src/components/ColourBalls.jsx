@@ -28,7 +28,6 @@ const ColourBalls = () => {
   }, [redsRemaining]);
 
   const handleLastColourAfterRed = (e) => {
-    console.log('No more normal balls');
     setLastColourAfterRed(true);
     setFinalColours(true);
   };
