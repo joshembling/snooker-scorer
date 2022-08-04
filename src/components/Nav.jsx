@@ -69,15 +69,12 @@ const Nav = ({ finishGame, respot, concededFrame }) => {
         {/* {((finishGame === false && concededFrame === false) || respot) && (
           <button onClick={changePlayer}>Change Player</button>
         )} */}
-
         {finishGame === false &&
           concededFrame === false &&
           finishMatch === false && (
             <button onClick={changePlayer}>Change Player</button>
           )}
-
         {respot && <button onClick={changePlayer}>Change Player RESPOT</button>}
-
         {finishGame === false && respot === false && concededFrame === false ? (
           <>
             <button onClick={handleRedOffTable} disabled={redsRemaining === 0}>
@@ -98,10 +95,16 @@ const Nav = ({ finishGame, respot, concededFrame }) => {
           ''
         )}
 
-        {((finishGame === true && respot === false) ||
-          (concededFrame === true && finishMatch === false)) && (
-          <button onClick={startNextFrame}>Start Next Frame</button>
-        )}
+        {(() => {
+          if (finishMatch === false) {
+            if (
+              (finishGame === true && respot === false) ||
+              (concededFrame === true && respot === false)
+            ) {
+              return <button onClick={startNextFrame}>Start Next Frame</button>;
+            }
+          }
+        })()}
 
         {finishMatch && (
           <button onClick={returnToHome}>Return to Homescreen</button>

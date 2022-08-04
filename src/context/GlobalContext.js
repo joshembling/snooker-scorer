@@ -8,6 +8,8 @@ export function GlobalProvider({
   setBestOfFrames,
   finishMatch,
   setFinishMatch,
+  matchHighestBreak,
+  setMatchHighestBreak,
   children,
 }) {
   const [playerName, setPlayerName] = useLocalStorage('PLAYER_NAME', {
@@ -74,6 +76,8 @@ export function GlobalProvider({
         setFinishMatch,
         matchWinner,
         setMatchWinner,
+        matchHighestBreak,
+        setMatchHighestBreak,
       }}
     >
       {children}

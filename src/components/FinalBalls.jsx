@@ -8,16 +8,23 @@ const FinalBalls = () => {
 
   const { addBreakHistory } = useContext(PlayerContext);
 
-  const { addScore, finalColourValue, setFinalColourValue, setFinishGame } =
-    useContext(ScoreContext);
+  const {
+    addScore,
+    finalColourValue,
+    setFinalColourValue,
+    setFinishGame,
+    setFinalColourPointsRemaining,
+  } = useContext(ScoreContext);
 
   const handleColourValue = (e) => {
     if (e.target.value == finalColourValue) {
       setFinalColourValue((prev) => prev + 1);
+      setFinalColourPointsRemaining((prev) => prev - e.target.value);
     }
 
     if (e.target.value === '7') {
       setFinishGame(true);
+      setFinalColourPointsRemaining((prev) => prev - e.target.value);
     }
   };
 

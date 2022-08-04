@@ -2,7 +2,8 @@ import React, { useContext } from 'react';
 import { GlobalContext } from '../context/GlobalContext';
 
 const EndMatch = () => {
-  const { playerName, matchWinner, playerFrames } = useContext(GlobalContext);
+  const { playerName, matchWinner, playerFrames, matchHighestBreak } =
+    useContext(GlobalContext);
 
   return (
     <section className='end-match'>
@@ -13,19 +14,22 @@ const EndMatch = () => {
           : playerName.p2.toUpperCase()}{' '}
         🎉
       </h2>
-      <h4>Quick stats:</h4>
-      <ul>
-        <li>
-          Final score: <br />
-          {`${playerName.p1.toUpperCase()} ${playerFrames.p1} - ${
-            playerFrames.p2
-          } ${playerName.p2.toUpperCase()}`}
-        </li>
-        <li>
-          Highest break: <br />
-          143 (player 1)
-        </li>
-      </ul>
+      <div className='end-match__stats'>
+        <h3>Overview:</h3>
+        <ul>
+          <li>
+            <strong>Final score:</strong>
+            {`${playerName.p1.toUpperCase()} ${playerFrames.p1} - ${
+              playerFrames.p2
+            } ${playerName.p2.toUpperCase()}`}
+          </li>
+          <li>
+            <strong>Highest Break:</strong>
+            {`${playerName.p1.toUpperCase()} - ${matchHighestBreak.p1}`} <br />
+            {`${playerName.p2.toUpperCase()} - ${matchHighestBreak.p2}`}
+          </li>
+        </ul>
+      </div>
     </section>
   );
 };

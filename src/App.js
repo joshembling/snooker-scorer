@@ -29,13 +29,17 @@ function App() {
   const [startGame, setStartGame] = useLocalStorage('START_GAME', false);
   const [bestOfFrames, setBestOfFrames] = useLocalStorage('BEST_OF_FRAMES', 3);
   const [finalColours, setFinalColours] = useLocalStorage(
-    'SET_FINAL_COLOURS',
+    'FINAL_COLOURS',
     false
   );
   const [finishGame, setFinishGame] = useLocalStorage('FINISH_GAME', false);
   const [finishMatch, setFinishMatch] = useLocalStorage('FINISH_MATCH', false);
+  const [matchHighestBreak, setMatchHighestBreak] = useLocalStorage(
+    'MATCH_HIGHEST_BREAK',
+    { p1: 0, p2: 0 }
+  );
   const [concededFrame, setConcededFrame] = useState(false);
-  const [respot, setRespot] = useState(false);
+  const [respot, setRespot] = useLocalStorage('RESPOT', false);
 
   return (
     <>
@@ -49,6 +53,8 @@ function App() {
         setBestOfFrames={setBestOfFrames}
         finishMatch={finishMatch}
         setFinishMatch={setFinishMatch}
+        matchHighestBreak={matchHighestBreak}
+        setMatchHighestBreak={setMatchHighestBreak}
       >
         <div className='snookerApp'>
           {startGame === false ? (
@@ -63,11 +69,8 @@ function App() {
                 setFinishGame={setFinishGame}
                 respot={respot}
                 setRespot={setRespot}
-                setFinalColours={setFinalColours}
                 concededFrame={concededFrame}
                 setConcededFrame={setConcededFrame}
-                finishMatch={finishMatch}
-                setFinishMatch={setFinishMatch}
                 setStartGame={setStartGame}
               >
                 <Nav
@@ -79,19 +82,23 @@ function App() {
                 {finishGame === true && respot === true ? <Respot /> : ''}
 
                 {/* If finished game and there's a winner show victory, otherwise show the balls */}
-                {(finishGame === true && respot === false) ||
-                (concededFrame === true && respot === false) ? (
-                  <Winner />
-                ) : (
-                  ''
-                )}
+                {(() => {
+                  if (finishMatch === false) {
+                    if (
+                      (finishGame === true && respot === false) ||
+                      (concededFrame === true && respot === false)
+                    ) {
+                      return <Winner />;
+                    }
+                  }
+                })()}
 
                 {finishGame === false &&
                 finalColours === false &&
                 concededFrame === false ? (
                   <>
                     <RedBalls />
-                    <ColourBalls setFinalColours={setFinalColours} />
+                    <ColourBalls />
                   </>
                 ) : (
                   ''

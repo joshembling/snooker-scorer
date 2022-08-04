@@ -17,15 +17,15 @@ const Footer = () => {
     playerName,
     playerFrames,
     bestOfFrames,
+    finishMatch,
   } = useContext(GlobalContext);
 
   const { player, highestBreak, breakHistory } = useContext(PlayerContext);
 
-  const { handleConcedeFrame, setConcession } = useContext(ScoreContext);
+  const { handleConcedeFrame, setConcession, finalColourPointsRemaining } =
+    useContext(ScoreContext);
 
-  const calculatePointsRemaining = (e) => {
-    return redsRemaining * 8 + 27;
-  };
+  // console.log(finalColourPointsRemaining);
 
   return (
     <footer>
@@ -89,6 +89,7 @@ const Footer = () => {
               handleConcedeFrame(e);
               setConcession(true);
             }}
+            disabled={finishMatch}
           >
             Concede Frame
           </button>
@@ -101,7 +102,12 @@ const Footer = () => {
             pointsRemainingActive ? 'active' : ''
           }`}
         >
-          <span>Remaining: {calculatePointsRemaining()}</span>
+          <span>
+            Remaining:{' '}
+            {redsRemaining
+              ? redsRemaining * 8 + 27
+              : finalColourPointsRemaining}
+          </span>
         </div>
 
         {playerData.p2 ? (
@@ -112,6 +118,7 @@ const Footer = () => {
               handleConcedeFrame(e);
               setConcession(true);
             }}
+            disabled={finishMatch}
           >
             Concede Frame
           </button>
