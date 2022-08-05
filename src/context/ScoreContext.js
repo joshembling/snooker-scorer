@@ -175,7 +175,7 @@ export function ScoreProvider({
     setRedsRemaining(noOfReds);
     setLastColourAfterRed(false);
     setFinalColourValue(2);
-    setHighestBreak({ p1: 0, p2: 0 });
+    // setHighestBreak({ p1: 0, p2: 0 });
     setBreakHistory({ p1: [], p2: [] });
     setBreakCurrent({ p1: [], p2: [] });
     setCurrentBreak({ p1: 0, p2: 0 });
