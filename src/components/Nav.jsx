@@ -75,25 +75,37 @@ const Nav = ({ finishGame, respot, concededFrame }) => {
             <button onClick={changePlayer}>Change Player</button>
           )}
         {respot && <button onClick={changePlayer}>Change Player RESPOT</button>}
-        {finishGame === false && respot === false && concededFrame === false ? (
-          <>
-            <button onClick={handleRedOffTable} disabled={redsRemaining === 0}>
-              Red off table
-            </button>
-            <button onClick={showFoul}>Add Foul</button>
-            <button
-              onClick={() => setMistake((prev) => !prev)}
-              disabled={score.p1 === 0 && score.p2 === 0}
-            >
-              {mistake === false
-                ? "I've made a mistake!"
-                : 'Go back to the game!'}
-            </button>
-            <button onClick={showFreeBall}>Free ball</button>
-          </>
-        ) : (
-          ''
-        )}
+
+        {(() => {
+          if (finishMatch === false) {
+            if (
+              finishGame === false &&
+              respot === false &&
+              concededFrame === false
+            ) {
+              return (
+                <>
+                  <button
+                    onClick={handleRedOffTable}
+                    disabled={redsRemaining === 0}
+                  >
+                    Red off table
+                  </button>
+                  <button onClick={showFoul}>Add Foul</button>
+                  <button
+                    onClick={() => setMistake((prev) => !prev)}
+                    disabled={score.p1 === 0 && score.p2 === 0}
+                  >
+                    {mistake === false
+                      ? "I've made a mistake!"
+                      : 'Go back to the game!'}
+                  </button>
+                  <button onClick={showFreeBall}>Free ball</button>
+                </>
+              );
+            }
+          }
+        })()}
 
         {(() => {
           if (finishMatch === false) {
@@ -110,6 +122,12 @@ const Nav = ({ finishGame, respot, concededFrame }) => {
           <button onClick={returnToHome}>Return to Homescreen</button>
         )}
       </div>
+
+      <div className='confirm'>
+        <button>Confirm red off table</button>
+        <button>Cancel</button>
+      </div>
+
       <div className={`fouls ${foulActive ? 'active' : ''}`}>
         {fouls.map((foul, idx) => {
           return (

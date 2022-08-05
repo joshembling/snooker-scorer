@@ -146,6 +146,10 @@ header {
   }
 }
 
+button {
+  transition: $transition;
+}
+
 nav {
   padding: 0.75rem 0;
   border-bottom: 0.45rem solid $yellow;
@@ -353,16 +357,11 @@ footer {
     height: 3rem;
     width: 3rem;
   }
-}
 
-.colour-balls .blue {
-  background: radial-gradient(
-    circle at 65% 15%,
-    white 1px,
-    aqua 3%,
-    $blue 60%,
-    $blue 100%
-  );
+  &:hover {
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
+      rgba(17, 17, 26, 0.05) 0px 8px 32px;
+  }
 }
 
 .red-balls button:hover,
@@ -428,23 +427,86 @@ button.break-history-ball:not(:disabled) {
 .red {
   background: red;
 }
+.red-ball {
+  background: radial-gradient(
+    circle at 65% 15%,
+    // white 1px,
+    rgb(241, 156, 156) 3%,
+    red 60%,
+    red 100%
+  );
+}
 .yellow {
   background: $yellow;
+}
+.yellow-ball {
+  background: radial-gradient(
+    circle at 65% 15%,
+    // white 1px,
+    rgb(245, 245, 187) 3%,
+    $yellow 60%,
+    $yellow 100%
+  );
 }
 .green {
   background: #00ff00;
 }
+.green-ball {
+  background: radial-gradient(
+    circle at 65% 15%,
+    // white 1px,
+    rgb(191, 223, 191) 3%,
+    #2fc42f 60%,
+    #2fc42f 100%
+  );
+}
 .brown {
   background: #8b4513;
+}
+.brown-ball {
+  background: radial-gradient(
+    circle at 65% 15%,
+    // white 1px,
+    rgb(182, 158, 152) 3%,
+    #8b4513 60%,
+    #8b4513 100%
+  );
 }
 .blue {
   background: $blue;
 }
+.blue-ball {
+  background: radial-gradient(
+    circle at 65% 15%,
+    // white 1px,
+    aqua 3%,
+    $blue 60%,
+    $blue 100%
+  );
+}
 .pink {
   background: #ff00ff;
 }
+.pink-ball {
+  background: radial-gradient(
+    circle at 65% 15%,
+    // white 1px,
+    rgb(241, 233, 233) 3%,
+    #f6adb9 60%,
+    #f6adb9 100%
+  );
+}
 .black {
   background: #000000;
+}
+.black-ball {
+  background: radial-gradient(
+    circle at 65% 15%,
+    // white 1px,
+    rgb(116, 114, 114) 3%,
+    #000000 60%,
+    #000000 100%
+  );
 }
 
 .fouls {
@@ -517,4 +579,18 @@ button.break-history-ball:not(:disabled) {
       }
     }
   }
+}
+
+.confirm {
+  display: none;
+  &.active {
+    display: flex;
+  }
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+  background: rgb(219, 255, 219);
+  height: 100%;
+  padding: 0.75rem;
+  margin: 1rem;
 }

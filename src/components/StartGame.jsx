@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import { GlobalContext } from '../context/GlobalContext';
+import { ScoreContext } from '../context/ScoreContext';
 
-const StartGame = ({ setStartGame }) => {
+const StartGame = () => {
   const {
     playerName,
     setPlayerName,
@@ -11,6 +12,8 @@ const StartGame = ({ setStartGame }) => {
     bestOfFrames,
     setBestOfFrames,
   } = useContext(GlobalContext);
+
+  const { handleStartGame } = useContext(ScoreContext);
 
   return (
     <>
@@ -75,7 +78,7 @@ const StartGame = ({ setStartGame }) => {
             <option value='15'>15</option>
           </select>
         </div>
-        <button id='ready' onClick={() => setStartGame(true)}>
+        <button id='ready' onClick={handleStartGame}>
           Start Game
         </button>
       </section>

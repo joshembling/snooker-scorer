@@ -45,6 +45,7 @@ export function ScoreProvider({
     player,
     setLastColourAfterRed,
     setBreakHistory,
+    breakCurrent,
     setBreakCurrent,
     highestBreak,
     setHighestBreak,
@@ -96,9 +97,12 @@ export function ScoreProvider({
   /**
    * HANDLING THE GAME FINISH
    */
+  console.log(concession);
   useEffect(() => {
     if (finishGame && concededFrame === false && finishMatch === false) {
+      console.log(score.p1 === score.p2);
       if (score.p1 > score.p2) {
+        console.log('p1 win');
         setFrameWinner((prev) => ({
           ...prev,
           p1: true,
@@ -109,6 +113,7 @@ export function ScoreProvider({
         }));
         setRespot(false);
       } else if (score.p2 > score.p1) {
+        console.log('p2 win');
         setFrameWinner((prev) => ({
           ...prev,
           p2: true,
@@ -119,6 +124,7 @@ export function ScoreProvider({
         }));
         setRespot(false);
       } else if (score.p1 === score.p2 && concession === false) {
+        console.log('respot');
         setFrameWinner((prev) => ({
           ...prev,
           p1: false,
@@ -174,16 +180,14 @@ export function ScoreProvider({
     setBreakCurrent({ p1: [], p2: [] });
     setCurrentBreak({ p1: 0, p2: 0 });
     setConcededFrame(false);
+    setConcession(false);
     setFrameWinner({ p1: false, p2: false });
     setFinalColourPointsRemaining(27);
   };
 
   const returnToHome = () => {
-    setPlayerFrames({ p1: 0, p2: 0 });
-    setStartGame(false);
     setFinalColours(false);
     setFinishGame(false);
-    setFinishMatch(false);
     setRespot(false);
     setScore({ p1: 0, p2: 0 });
     setRedsRemaining(noOfReds);
@@ -195,13 +199,54 @@ export function ScoreProvider({
     setCurrentBreak({ p1: 0, p2: 0 });
     setConcededFrame(false);
     setFrameWinner({ p1: false, p2: false });
+    setConcession(false);
+    setFinalColourPointsRemaining(27);
+    setPlayerFrames({ p1: 0, p2: 0 });
+    setStartGame(false);
+    setFinishMatch(false);
+    setFinalColourValue(2);
+    setBreakHistory({ p1: [], p2: [] });
+    setBreakCurrent({ p1: [], p2: [] });
+    setCurrentBreak({ p1: 0, p2: 0 });
+    setConcededFrame(false);
+    setFrameWinner({ p1: false, p2: false });
     setFinalColourPointsRemaining(27);
     setMatchHighestBreak({ p1: 0, p2: 0 });
   };
 
+  const handleStartGame = () => {
+    setStartGame(true);
+    setFinalColours(false);
+    setFinishGame(false);
+    setRespot(false);
+    setScore({ p1: 0, p2: 0 });
+    setRedsRemaining(noOfReds);
+    setLastColourAfterRed(false);
+    setFinalColourValue(2);
+    setHighestBreak({ p1: 0, p2: 0 });
+    setBreakHistory({ p1: [], p2: [] });
+    setBreakCurrent({ p1: [], p2: [] });
+    setCurrentBreak({ p1: 0, p2: 0 });
+    setConcededFrame(false);
+    setFrameWinner({ p1: false, p2: false });
+    setConcession(false);
+    setFinalColourPointsRemaining(27);
+    setPlayerFrames({ p1: 0, p2: 0 });
+    setFinishMatch(false);
+    setFinalColourValue(2);
+    setBreakHistory({ p1: [], p2: [] });
+    setBreakCurrent({ p1: [], p2: [] });
+    setCurrentBreak({ p1: 0, p2: 0 });
+    setConcededFrame(false);
+    setFrameWinner({ p1: false, p2: false });
+    setFinalColourPointsRemaining(27);
+    setMatchHighestBreak({ p1: 0, p2: 0 });
+  };
+
+  console.log(respot);
+
   // check to see if max frames have been played
   useEffect(() => {
-    console.log('use effect run to change player frames');
     if (parseInt(playerFrames.p1) + 1 === parseInt(bestOfFrames)) {
       setMatchWinner((prev) => ({
         ...prev,
@@ -222,17 +267,17 @@ export function ScoreProvider({
   // check to see if highest break is highest of match for player
 
   useEffect(() => {
-    console.log('P1 CB: ' + currentBreak.p1);
-    console.log('P2 CB: ' + currentBreak.p2);
     if (currentBreak.p1 > matchHighestBreak.p1) {
       setMatchHighestBreak((prev) => ({
         ...prev,
         p1: currentBreak.p1,
       }));
-    } else if (currentBreak.p2 > matchHighestBreak.p2) {
+    }
+
+    if (currentBreak.p2 > matchHighestBreak.p2) {
       setMatchHighestBreak((prev) => ({
         ...prev,
-        p2: highestBreak.p2,
+        p2: currentBreak.p2,
       }));
     }
   }, [currentBreak]);
@@ -240,6 +285,7 @@ export function ScoreProvider({
   return (
     <ScoreContext.Provider
       value={{
+        handleStartGame,
         addScore,
         foulActive,
         setFoulActive,

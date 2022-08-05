@@ -38,7 +38,7 @@ const ColourBalls = () => {
         return (
           <button
             key={idx}
-            className={colour.name}
+            className={colour.name + '-ball'}
             value={freeBall ? 1 : colour.value}
             colour={colour.name}
             onClick={(e) => {

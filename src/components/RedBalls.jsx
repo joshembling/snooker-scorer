@@ -17,7 +17,7 @@ const RedBalls = () => {
     freeBall === false && (
       <div className='red-balls'>
         <button
-          style={{ backgroundColor: 'red' }}
+          className='red-ball'
           value='1'
           colour='red'
           onClick={(e) => {

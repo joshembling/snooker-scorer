@@ -57,67 +57,75 @@ function App() {
         setMatchHighestBreak={setMatchHighestBreak}
       >
         <div className='snookerApp'>
-          {startGame === false ? (
-            <StartGame setStartGame={setStartGame} />
-          ) : (
-            <PlayerProvider
-              finalColours={finalColours}
-              setFinalColours={setFinalColours}
+          <PlayerProvider
+            finalColours={finalColours}
+            setFinalColours={setFinalColours}
+          >
+            <ScoreProvider
+              finishGame={finishGame}
+              setFinishGame={setFinishGame}
+              respot={respot}
+              setRespot={setRespot}
+              concededFrame={concededFrame}
+              setConcededFrame={setConcededFrame}
+              setStartGame={setStartGame}
             >
-              <ScoreProvider
-                finishGame={finishGame}
-                setFinishGame={setFinishGame}
-                respot={respot}
-                setRespot={setRespot}
-                concededFrame={concededFrame}
-                setConcededFrame={setConcededFrame}
-                setStartGame={setStartGame}
-              >
-                <Nav
-                  finishGame={finishGame}
-                  respot={respot}
-                  concededFrame={concededFrame}
-                />
-                {/* Render respot */}
-                {finishGame === true && respot === true ? <Respot /> : ''}
+              {startGame === false ? (
+                <StartGame />
+              ) : (
+                <>
+                  <Nav
+                    finishGame={finishGame}
+                    respot={respot}
+                    concededFrame={concededFrame}
+                  />
+                  {/* Render respot */}
+                  {finishGame === true && respot === true ? <Respot /> : ''}
 
-                {/* If finished game and there's a winner show victory, otherwise show the balls */}
-                {(() => {
-                  if (finishMatch === false) {
-                    if (
-                      (finishGame === true && respot === false) ||
-                      (concededFrame === true && respot === false)
-                    ) {
-                      return <Winner />;
+                  {/* If finished game and there's a winner show victory, otherwise show the balls */}
+                  {(() => {
+                    if (finishMatch === false) {
+                      if (
+                        (finishGame === true && respot === false) ||
+                        (concededFrame === true && respot === false)
+                      ) {
+                        return <Winner />;
+                      }
                     }
-                  }
-                })()}
+                  })()}
 
-                {finishGame === false &&
-                finalColours === false &&
-                concededFrame === false ? (
-                  <>
-                    <RedBalls />
-                    <ColourBalls />
-                  </>
-                ) : (
-                  ''
-                )}
+                  {(() => {
+                    if (finishMatch === false) {
+                      if (
+                        finishGame === false &&
+                        finalColours === false &&
+                        concededFrame === false
+                      ) {
+                        return (
+                          <>
+                            <RedBalls />
+                            <ColourBalls />
+                          </>
+                        );
+                      }
+                    }
+                  })()}
 
-                {finishGame === false &&
-                concededFrame === false &&
-                finalColours === true ? (
-                  <FinalBalls finalColours={finalColours} />
-                ) : (
-                  ''
-                )}
+                  {finishGame === false &&
+                  concededFrame === false &&
+                  finalColours === true ? (
+                    <FinalBalls finalColours={finalColours} />
+                  ) : (
+                    ''
+                  )}
 
-                {finishMatch && <EndMatch />}
+                  {finishMatch && <EndMatch />}
 
-                <Footer />
-              </ScoreProvider>
-            </PlayerProvider>
-          )}
+                  <Footer />
+                </>
+              )}
+            </ScoreProvider>
+          </PlayerProvider>
         </div>
       </GlobalProvider>
     </>

@@ -39,6 +39,7 @@ export function PlayerProvider({ finalColours, setFinalColours, children }) {
   } = useContext(GlobalContext);
 
   const changePlayer = () => {
+    console.log('run');
     if (player === 'Player 1') {
       setPlayer('Player 2');
       setCurrentBreak((prev) => ({ ...prev, p1: 0 }));
@@ -104,7 +105,6 @@ export function PlayerProvider({ finalColours, setFinalColours, children }) {
         setPlayer,
         changePlayer,
         addBreakHistory,
-        highestBreak,
         breakHistory,
         setBreakHistory,
         breakCurrent,
@@ -113,6 +113,7 @@ export function PlayerProvider({ finalColours, setFinalColours, children }) {
         setLastColourAfterRed,
         finalColours,
         setFinalColours,
+        highestBreak,
         setHighestBreak,
       }}
     >

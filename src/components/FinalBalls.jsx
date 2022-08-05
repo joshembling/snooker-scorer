@@ -24,7 +24,7 @@ const FinalBalls = () => {
 
     if (e.target.value === '7') {
       setFinishGame(true);
-      setFinalColourPointsRemaining((prev) => prev - e.target.value);
+      setFinalColourPointsRemaining(0);
     }
   };
 
@@ -37,7 +37,7 @@ const FinalBalls = () => {
           return (
             <button
               key={idx}
-              className={colour.name}
+              className={colour.name + '-ball'}
               value={colour.value}
               colour={colour.name}
               onClick={(e) => {
