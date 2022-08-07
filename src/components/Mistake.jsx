@@ -18,7 +18,7 @@ const Mistake = () => {
     setLastColourAfterRed,
   } = useContext(PlayerContext);
 
-  const { finalColourValue, setFinalColourValue } = useContext(ScoreContext);
+  const { setBallsPotted, setFinalColourValue } = useContext(ScoreContext);
 
   const handleUndoBall = (e) => {
     if (player === 'Player 1') {
@@ -42,6 +42,11 @@ const Mistake = () => {
       } else if (finalColours) {
         setFinalColourValue((prev) => prev - 1);
       }
+
+      setBallsPotted((prev) => ({
+        ...prev,
+        p1: prev.p1 - 1,
+      }));
     } else {
       setScore((prev) => ({
         ...prev,
@@ -63,6 +68,11 @@ const Mistake = () => {
       } else if (finalColours) {
         setFinalColourValue((prev) => prev - 1);
       }
+
+      setBallsPotted((prev) => ({
+        ...prev,
+        p2: prev.p2 - 1,
+      }));
     }
 
     if (e.target.classList.contains('red')) {
@@ -79,7 +89,7 @@ const Mistake = () => {
             value={ball.value}
             className={`break-history-ball ${
               freeBall === true ? 'free-ball' : ball.colour
-            } ${idx + 1 === arr.length ? 'last-ball' : ''}`}
+            }-ball ${idx + 1 === arr.length ? 'last-ball' : ''}`}
             disabled={mistake === true && idx + 1 === arr.length ? false : true}
             onClick={(e) => handleUndoBall(e)}
           >

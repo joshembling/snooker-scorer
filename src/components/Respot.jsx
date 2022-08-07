@@ -7,7 +7,8 @@ import { ScoreContext } from '../context/ScoreContext';
 const Respot = () => {
   const { setPlayerFrames } = useContext(GlobalContext);
   const { addBreakHistory, player } = useContext(PlayerContext);
-  const { addScore, setRespot, setFrameWinner } = useContext(ScoreContext);
+  const { addScore, setRespot, setFrameWinner, handleBallsPotted } =
+    useContext(ScoreContext);
 
   const handleFrameWinner = (e) => {
     if (e.target.getAttribute('winner') === 'Player 1') {
@@ -45,6 +46,7 @@ const Respot = () => {
             addScore(e);
             addBreakHistory(e);
             handleFrameWinner(e);
+            handleBallsPotted(e);
           }}
         ></button>
       </div>

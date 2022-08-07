@@ -5,6 +5,7 @@ import React, {
   useContext,
   useRef,
 } from 'react';
+import StartGame from '../components/StartGame';
 import useLocalStorage from '../hooks/useLocalStorage';
 
 import { GlobalContext } from './GlobalContext';
@@ -20,6 +21,7 @@ export function ScoreProvider({
   children,
   concededFrame,
   setConcededFrame,
+  startGame,
   setStartGame,
 }) {
   const {
@@ -39,15 +41,25 @@ export function ScoreProvider({
     matchHighestBreak,
     setMatchHighestBreak,
     currentBreak,
+
+    // shot time
+    shotTime,
+    setShotTime,
+    latestShotTime,
+    setLatestShotTime,
+    allShotTimes,
+    setAllShotTimes,
+    shotsTaken,
+    setShotsTaken,
+    averageShotTime,
+    setAverageShotTime,
   } = useContext(GlobalContext);
 
   const {
     player,
     setLastColourAfterRed,
     setBreakHistory,
-    breakCurrent,
     setBreakCurrent,
-    highestBreak,
     setHighestBreak,
     setFinalColours,
   } = useContext(PlayerContext);
@@ -62,6 +74,10 @@ export function ScoreProvider({
 
   const [frameWinner, setFrameWinner] = useState({ p1: false, p2: false });
   const [concession, setConcession] = useState(false);
+  const [ballsPotted, setBallsPotted] = useLocalStorage('BALLS_POTTED', {
+    p1: 0,
+    p2: 0,
+  });
 
   const finishGameRef = useRef();
   const concededFrameRef = useRef();
@@ -94,15 +110,26 @@ export function ScoreProvider({
     }
   };
 
+  const handleBallsPotted = (e) => {
+    if (player === 'Player 1') {
+      setBallsPotted((prev) => ({
+        ...prev,
+        p1: prev.p1 + 1,
+      }));
+    } else {
+      setBallsPotted((prev) => ({
+        ...prev,
+        p2: prev.p2 + 1,
+      }));
+    }
+  };
+
   /**
    * HANDLING THE GAME FINISH
    */
-  console.log(concession);
   useEffect(() => {
     if (finishGame && concededFrame === false && finishMatch === false) {
-      console.log(score.p1 === score.p2);
       if (score.p1 > score.p2) {
-        console.log('p1 win');
         setFrameWinner((prev) => ({
           ...prev,
           p1: true,
@@ -113,7 +140,6 @@ export function ScoreProvider({
         }));
         setRespot(false);
       } else if (score.p2 > score.p1) {
-        console.log('p2 win');
         setFrameWinner((prev) => ({
           ...prev,
           p2: true,
@@ -124,7 +150,6 @@ export function ScoreProvider({
         }));
         setRespot(false);
       } else if (score.p1 === score.p2 && concession === false) {
-        console.log('respot');
         setFrameWinner((prev) => ({
           ...prev,
           p1: false,
@@ -137,8 +162,6 @@ export function ScoreProvider({
 
   // CONCESSION
   const handleConcedeFrame = (e) => {
-    console.log(frameWinner);
-    console.log(playerFrames);
     if (e.target.value === 'p1') {
       setFrameWinner((prev) => ({
         ...prev,
@@ -161,9 +184,7 @@ export function ScoreProvider({
       setConcededFrame(true);
     }
 
-    // setTimeout(() => {
-    //   startNextFrame();
-    // }, 3000);
+    setFinishGame(true);
   };
 
   // BEGIN NEXT FRAME
@@ -212,6 +233,8 @@ export function ScoreProvider({
     setFrameWinner({ p1: false, p2: false });
     setFinalColourPointsRemaining(27);
     setMatchHighestBreak({ p1: 0, p2: 0 });
+    setBallsPotted({ p1: 0, p2: 0 });
+    setAverageShotTime({ p1: 0, p2: 0 });
   };
 
   const handleStartGame = () => {
@@ -241,20 +264,19 @@ export function ScoreProvider({
     setFrameWinner({ p1: false, p2: false });
     setFinalColourPointsRemaining(27);
     setMatchHighestBreak({ p1: 0, p2: 0 });
+    setAverageShotTime({ p1: 0, p2: 0 });
   };
-
-  console.log(respot);
 
   // check to see if max frames have been played
   useEffect(() => {
-    if (parseInt(playerFrames.p1) + 1 === parseInt(bestOfFrames)) {
+    if (parseInt(playerFrames.p1) * 2 - 1 === parseInt(bestOfFrames)) {
       setMatchWinner((prev) => ({
         ...prev,
         p1: true,
         p2: false,
       }));
       setFinishMatch(true);
-    } else if (parseInt(playerFrames.p2) + 1 === parseInt(bestOfFrames)) {
+    } else if (parseInt(playerFrames.p2) * 2 - 1 === parseInt(bestOfFrames)) {
       setMatchWinner((prev) => ({
         ...prev,
         p1: false,
@@ -282,11 +304,112 @@ export function ScoreProvider({
     }
   }, [currentBreak]);
 
+  // SHOT TIME HANDLING
+  useEffect(() => {
+    let counterID;
+    if (finishGame === false && startGame === true) {
+      if (player === 'Player 1') {
+        counterID = setTimeout(
+          () =>
+            setShotTime((prev) => ({
+              ...prev,
+              p1: parseInt(shotTime.p1) + 1,
+            })),
+          1000
+        );
+      } else {
+        counterID = setTimeout(
+          () =>
+            setShotTime((prev) => ({
+              ...prev,
+              p2: parseInt(shotTime.p2) + 1,
+            })),
+          1000
+        );
+      }
+    }
+
+    return () => {
+      clearTimeout(counterID);
+    };
+  }, [shotTime, finishGame]);
+
+  const handleShotTime = () => {
+    if (player === 'Player 1') {
+      setLatestShotTime((prev) => ({
+        ...prev,
+        p1: parseInt(shotTime.p1),
+      }));
+
+      setShotTime((prev) => ({
+        ...prev,
+        p1: parseInt(0),
+      }));
+
+      setShotsTaken((prev) => ({
+        ...prev,
+        p1: parseInt(prev.p1) + 1,
+      }));
+
+      setAllShotTimes((prev) => ({
+        ...prev,
+        p1: [...prev.p1, parseInt(shotTime.p1)],
+      }));
+
+      const calculatedShotTimeP1 = allShotTimes.p1.reduce(
+        (sum, a) => sum + a,
+        0
+      );
+
+      console.log(calculatedShotTimeP1);
+
+      setAverageShotTime((prev) => ({
+        ...prev,
+        p1: (calculatedShotTimeP1 / shotsTaken.p1).toFixed(2),
+      }));
+    } else {
+      setLatestShotTime((prev) => ({
+        ...prev,
+        p2: shotTime.p2,
+      }));
+
+      setShotTime((prev) => ({
+        ...prev,
+        p2: 0,
+      }));
+
+      setShotsTaken((prev) => ({
+        ...prev,
+        p2: parseInt(prev.p2) + 1,
+      }));
+
+      setAllShotTimes((prev) => ({
+        ...prev,
+        p2: [...prev.p2, parseInt(shotTime.p2)],
+      }));
+
+      const calculatedShotTimeP2 = allShotTimes.p2.reduce(
+        (sum, a) => sum + a,
+        0
+      );
+
+      setAverageShotTime((prev) => ({
+        ...prev,
+        p2: (calculatedShotTimeP2 / shotsTaken.p2).toFixed(2),
+      }));
+
+      console.log(calculatedShotTimeP2);
+    }
+  };
+
   return (
     <ScoreContext.Provider
       value={{
         handleStartGame,
         addScore,
+        ballsPotted,
+        setBallsPotted,
+        handleBallsPotted,
         foulActive,
         setFoulActive,
         finalColourValue,
@@ -303,6 +426,7 @@ export function ScoreProvider({
         returnToHome,
         finalColourPointsRemaining,
         setFinalColourPointsRemaining,
+        handleShotTime,
       }}
     >
       {children}

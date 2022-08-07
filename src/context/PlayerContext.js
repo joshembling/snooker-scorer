@@ -39,7 +39,6 @@ export function PlayerProvider({ finalColours, setFinalColours, children }) {
   } = useContext(GlobalContext);
 
   const changePlayer = () => {
-    console.log('run');
     if (player === 'Player 1') {
       setPlayer('Player 2');
       setCurrentBreak((prev) => ({ ...prev, p1: 0 }));

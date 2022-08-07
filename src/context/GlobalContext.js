@@ -48,6 +48,16 @@ export function GlobalProvider({
 
   const [matchWinner, setMatchWinner] = useState({ p1: false, p2: false });
 
+  // shot times
+  const [shotTime, setShotTime] = useState({ p1: 0, p2: 0 });
+  const [latestShotTime, setLatestShotTime] = useState({ p1: 0, p2: 0 });
+  const [allShotTimes, setAllShotTimes] = useState({ p1: [], p2: [] });
+  const [shotsTaken, setShotsTaken] = useState({ p1: 0, p2: 0 });
+  const [averageShotTime, setAverageShotTime] = useLocalStorage(
+    'AVERAGE_SHOT_TIME',
+    { p1: 0, p2: 0 }
+  );
+
   return (
     <GlobalContext.Provider
       value={{
@@ -78,6 +88,17 @@ export function GlobalProvider({
         setMatchWinner,
         matchHighestBreak,
         setMatchHighestBreak,
+        // shot times
+        shotTime,
+        setShotTime,
+        latestShotTime,
+        setLatestShotTime,
+        allShotTimes,
+        setAllShotTimes,
+        shotsTaken,
+        setShotsTaken,
+        averageShotTime,
+        setAverageShotTime,
       }}
     >
       {children}

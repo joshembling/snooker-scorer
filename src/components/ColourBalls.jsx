@@ -10,10 +10,10 @@ const ColourBalls = () => {
     addBreakHistory,
     lastColourAfterRed,
     setLastColourAfterRed,
-    finalColours,
     setFinalColours,
   } = useContext(PlayerContext);
-  const { addScore } = useContext(ScoreContext);
+  const { addScore, handleBallsPotted, handleShotTime } =
+    useContext(ScoreContext);
 
   /**
    * FINAL COLOURS INIT
@@ -44,6 +44,8 @@ const ColourBalls = () => {
             onClick={(e) => {
               addScore(e);
               addBreakHistory(e);
+              handleBallsPotted(e);
+              handleShotTime(e);
               freeBall && handleFreeBall(e);
               lastColourAfterRed && handleLastColourAfterRed(e);
             }}

@@ -1,13 +1,14 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { GlobalContext } from '../context/GlobalContext';
 import { PlayerContext } from '../context/PlayerContext';
 import { ScoreContext } from '../context/ScoreContext';
 
 const RedBalls = () => {
-  const { redsRemaining, setRedsRemaining, freeBall } =
+  const { redsRemaining, setRedsRemaining, freeBall, shotTime, setShotTime } =
     useContext(GlobalContext);
   const { addBreakHistory } = useContext(PlayerContext);
-  const { addScore } = useContext(ScoreContext);
+  const { addScore, handleBallsPotted, handleShotTime } =
+    useContext(ScoreContext);
 
   const calculateRedsRemaining = (e) => {
     setRedsRemaining((prev) => prev - 1);
@@ -24,6 +25,8 @@ const RedBalls = () => {
             addScore(e);
             addBreakHistory(e);
             calculateRedsRemaining(e);
+            handleBallsPotted(e);
+            handleShotTime(e);
           }}
           disabled={redsRemaining === 0}
         >

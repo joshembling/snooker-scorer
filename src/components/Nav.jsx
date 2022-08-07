@@ -17,12 +17,18 @@ const Nav = ({ finishGame, respot, concededFrame }) => {
     freeBall,
     setFreeBall,
     finishMatch,
+    currentBreak,
   } = useContext(GlobalContext);
 
   const { changePlayer, player, setPlayer } = useContext(PlayerContext);
 
-  const { foulActive, setFoulActive, startNextFrame, returnToHome } =
-    useContext(ScoreContext);
+  const {
+    foulActive,
+    setFoulActive,
+    startNextFrame,
+    returnToHome,
+    handleShotTime,
+  } = useContext(ScoreContext);
 
   const handleRedOffTable = (e) => {
     if (redsRemaining > 0) {
@@ -72,9 +78,25 @@ const Nav = ({ finishGame, respot, concededFrame }) => {
         {finishGame === false &&
           concededFrame === false &&
           finishMatch === false && (
-            <button onClick={changePlayer}>Change Player</button>
+            <button
+              onClick={(e) => {
+                changePlayer();
+                handleShotTime(e);
+              }}
+            >
+              Change Player
+            </button>
           )}
-        {respot && <button onClick={changePlayer}>Change Player RESPOT</button>}
+        {respot && (
+          <button
+            onClick={(e) => {
+              changePlayer();
+              handleShotTime(e);
+            }}
+          >
+            Change Player
+          </button>
+        )}
 
         {(() => {
           if (finishMatch === false) {
@@ -94,7 +116,14 @@ const Nav = ({ finishGame, respot, concededFrame }) => {
                   <button onClick={showFoul}>Add Foul</button>
                   <button
                     onClick={() => setMistake((prev) => !prev)}
-                    disabled={score.p1 === 0 && score.p2 === 0}
+                    disabled={
+                      (score.p1 === 0 && score.p2 === 0) ||
+                      player === 'Player 1'
+                        ? currentBreak.p1 === 0
+                        : player === 'Player 2'
+                        ? currentBreak.p2 === 0
+                        : ''
+                    }
                   >
                     {mistake === false
                       ? "I've made a mistake!"

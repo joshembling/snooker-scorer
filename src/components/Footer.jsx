@@ -25,8 +25,6 @@ const Footer = () => {
   const { handleConcedeFrame, setConcession, finalColourPointsRemaining } =
     useContext(ScoreContext);
 
-  // console.log(finalColourPointsRemaining);
-
   return (
     <footer>
       <div className='footer-top'>

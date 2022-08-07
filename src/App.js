@@ -68,6 +68,7 @@ function App() {
               setRespot={setRespot}
               concededFrame={concededFrame}
               setConcededFrame={setConcededFrame}
+              startGame={startGame}
               setStartGame={setStartGame}
             >
               {startGame === false ? (

@@ -1,9 +1,12 @@
 import React, { useContext } from 'react';
 import { GlobalContext } from '../context/GlobalContext';
+import { ScoreContext } from '../context/ScoreContext';
 
 const EndMatch = () => {
-  const { playerName, matchWinner, playerFrames, matchHighestBreak } =
+  const { playerName, matchWinner, matchHighestBreak, averageShotTime } =
     useContext(GlobalContext);
+
+  const { ballsPotted } = useContext(ScoreContext);
 
   return (
     <section className='end-match'>
@@ -15,18 +18,28 @@ const EndMatch = () => {
         🎉
       </h2>
       <div className='end-match__stats'>
-        <h3>Overview:</h3>
         <ul>
           <li>
-            <strong>Final score:</strong>
-            {`${playerName.p1.toUpperCase()} ${playerFrames.p1} - ${
-              playerFrames.p2
-            } ${playerName.p2.toUpperCase()}`}
+            <span>
+              <strong>Highest Break:</strong> {matchHighestBreak.p1}
+            </span>
+            <span>
+              <strong>Balls potted:</strong> {ballsPotted.p1}
+            </span>
+            <span>
+              <strong>Average Shot Time: </strong> {averageShotTime.p1} secs
+            </span>
           </li>
           <li>
-            <strong>Highest Break:</strong>
-            {`${playerName.p1.toUpperCase()} - ${matchHighestBreak.p1}`} <br />
-            {`${playerName.p2.toUpperCase()} - ${matchHighestBreak.p2}`}
+            <span>
+              <strong>Highest Break:</strong> {matchHighestBreak.p2}
+            </span>
+            <span>
+              <strong>Balls potted:</strong> {ballsPotted.p2}
+            </span>
+            <span>
+              <strong>Average Shot Time: </strong> {averageShotTime.p2} secs
+            </span>
           </li>
         </ul>
       </div>

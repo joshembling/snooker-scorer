@@ -14,6 +14,8 @@ const FinalBalls = () => {
     setFinalColourValue,
     setFinishGame,
     setFinalColourPointsRemaining,
+    handleBallsPotted,
+    handleShotTime,
   } = useContext(ScoreContext);
 
   const handleColourValue = (e) => {
@@ -30,7 +32,6 @@ const FinalBalls = () => {
 
   return (
     <div className='colour-balls'>
-      <h1>FINAL</h1>
       {colours
         .filter((colour) => colour.value === finalColourValue)
         .map((colour, idx) => {
@@ -43,6 +44,8 @@ const FinalBalls = () => {
               onClick={(e) => {
                 addScore(e);
                 addBreakHistory(e);
+                handleBallsPotted(e);
+                handleShotTime(e);
                 freeBall && handleFreeBall(e);
                 !freeBall && handleColourValue(e);
               }}
